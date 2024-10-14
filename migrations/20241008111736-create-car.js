@@ -18,6 +18,9 @@ module.exports = {
             type: {
                 type: Sequelize.STRING,
             },
+            image: {
+                type: Sequelize.TEXT,
+            },
             year: {
                 type: Sequelize.INTEGER,
             },

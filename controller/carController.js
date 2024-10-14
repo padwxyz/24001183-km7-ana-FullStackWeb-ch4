@@ -1,4 +1,5 @@
 const { Car } = require("../models");
+const imagekit = require("../lib/imagekit");
 
 async function getAllCars(req, res) {
   try {
@@ -123,10 +124,43 @@ async function updateCar(req, res) {
 }
 
 async function createCar(req, res) {
-  const { plate, model, type, year } = req.body;
+  const { plate, model, type, imasge, year } = req.body;
+  const image = req.files;
+  const imagesUrl = [];
+  // processing file
+
+  // split untuk dapat extension dari file
+  const split = file.originalname.split(".");
+  const ext = split[split.length - 1];
+  const filename = split[0];
+
+  // upload image ke server
+  for(const image of images){
+    const uploadedImage = await imagekit.upload({
+      file: file.buffer,
+      fileName: `Profile-${filename}-${Date.now()}.${ext}}`
+    });
+
+    filesUrl.push(result.secure_url);
+
+  }
+
+  req.iamges = imagesUrl;
+  console.log(req.images)
+
+  console.log(uploadedImage)
+
+  if (!uploadedImage) {
+    res.status(400).json({
+      status: "Failed",
+      message: "Failed to add user data because file not defind",
+      isSuccess: false,
+      data: null,
+    });
+  }
 
   try {
-    const newCar = await Car.create({ plate, model, type, year });
+    const newCar = await Car.create({ plate, model, type, image: imagesUrl, year });
     res.status(200).json({
       status: "Success",
       message: "Ping successfully",
