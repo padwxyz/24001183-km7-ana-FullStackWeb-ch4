@@ -129,9 +129,6 @@ async function createUser(req, res) {
     console.log(req.file);
     // processing file
 
-    let carImage = []
-
-
     // split untuk dapat extension dari file
     const split = file.originalname.split(".");
     const ext = split[split.length - 1];
