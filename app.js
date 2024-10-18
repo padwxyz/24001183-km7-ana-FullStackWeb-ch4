@@ -13,38 +13,37 @@ const dashboardRoute = require("./routes/dashboardRoute");
 const app = express();
 const port = 3000;
 
-// Middleware: Reading json from body (client)
 app.use(express.json());
 app.use(express.urlencoded({ extended: false}))
-
-// middleware: logging third party package
 app.use(morgan());
 
-// contoh middleware
 app.use((req, res, next) => {
   console.log('incoming request...')
-  // better logging di bawahnya
   next();
 })
 
-// logging basic
 app.use((req, res, next) => {
-  req.requestTime = new Date().toISOString()
-  // better logging di bawahnya
+  req.requestTime = new Date().toISOString();
+  console.log("Request time: ");
+  console.log(req.requestTime);
   next();
 })
 
-// logging basic
 app.use((req, res, next) => {
-  req.username = "Nanjay"
-  // better logging di bawahnya
+  req.username = "Nanda"
+  console.log("Requested by: ");
+  console.log(req.username);
   next();
-})
+});
 
-// middlewares untuk membaca static file
+app.use((req, res, next) => {
+  console.log("API requested: ");
+  console.log(req.originalUrl);
+  next();
+});
+
 app.use(express.static(`${__dirname}/public/`));
 
-// view engine
 app.set("view engine", "ejs");
 
 app.use(expressLayouts);
@@ -60,7 +59,6 @@ app.get("/dashboard/admin", async (req, res) => {
   }
 });
 
-// Health Check
 app.get("/", async (req, res) => {
   try {
     res.status(200).json({
@@ -78,10 +76,9 @@ app.get("/", async (req, res) => {
   }
 });
 
-// Dashboard route
+
 app.use("/dashboard/admin", dashboardRoute);
 
-// API Routes
 app.use("/api/v1/users", usersRoute);
 app.use("/api/v1/cars", carsRoute);
 app.use("/api/v1/spareparts", sparepartsRoute);
@@ -89,13 +86,6 @@ app.use("/api/v1/drivers", driverRoutes);
 
 // Middleware to handle page not found
 app.use((req, res, next) => {
-  // console.log("proses kapan request");
-  // console.log(req.requestTime);
-  // console.log("proses siapa yang request");
-  // console.log(req.username);
-  // console.log("proses API apa yang diminta");
-  // console.log(req.originalUrl);
-
   res.status(404).json({
     status: "Failed",
     message: "API not found !",

@@ -1,7 +1,6 @@
 const { User } = require("../models");
 const imagekit = require("../lib/imagekit")
 
-// Function for get all user data
 async function userPage(req, res) {
     try {
         const users = await User.findAll();

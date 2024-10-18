@@ -1,17 +1,9 @@
 const { Car } = require("../models");
-const imagekit = require("../lib/imagekit");
+const imagekit = require("../lib/imagekit")
 
 async function getAllCars(req, res) {
   try {
-    // console.log("proses kapan request");
-    // console.log(req.requestTime);
-    // console.log("proses siapa yang request");
-    // console.log(req.username);
-    // console.log("proses API apa yang diminta");
-    // console.log(req.originalUrl);
-
     const cars = await Car.findAll();
-
     res.status(200).json({
       status: "200",
       message: "Success get cars data",
@@ -124,31 +116,23 @@ async function updateCar(req, res) {
 }
 
 async function createCar(req, res) {
-  const { plate, model, type, imasge, year } = req.body;
-  const image = req.files;
-  const imagesUrl = [];
-  // processing file
+  const { plate, model, type, year } = req.body;
 
-  // split untuk dapat extension dari file
-  const split = file.originalname.split(".");
-  const ext = split[split.length - 1];
-  const filename = split[0];
+  const images = req.files;
+  const uploadImages = [];
 
-  // upload image ke server
-  for(const image of images){
+  for (const image of images) {
+    const split = image.originalname.split(".");
+    const ext = split[split.length - 1];
+    const filename = split[0];
+
     const uploadedImage = await imagekit.upload({
-      file: file.buffer,
-      fileName: `Profile-${filename}-${Date.now()}.${ext}}`
+      file: image.buffer.toString('base64'),
+      fileName: `Car-Image-${filename}-${Date.now()}.${ext}}`
     });
 
-    filesUrl.push(result.secure_url);
-
+    uploadImages.push(uploadedImage.url);
   }
-
-  req.iamges = imagesUrl;
-  console.log(req.images)
-
-  console.log(uploadedImage)
 
   if (!uploadedImage) {
     res.status(400).json({
@@ -160,7 +144,7 @@ async function createCar(req, res) {
   }
 
   try {
-    const newCar = await Car.create({ plate, model, type, image: imagesUrl, year });
+    const newCar = await Car.create({ ...newCar, image: uploadImages });
     res.status(200).json({
       status: "Success",
       message: "Ping successfully",

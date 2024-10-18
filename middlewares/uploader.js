@@ -1,7 +1,7 @@
 const multer = require("multer");
 
 const multerFilltering = (req, file, cb) => {
-    if(
+    if (
         file.mimetype == 'image/png' ||
         file.mimetype == 'image/jpeg'
     ) {
@@ -13,7 +13,7 @@ const multerFilltering = (req, file, cb) => {
 
 const upload = multer({
     fileFilter: multerFilltering,
-    // dest: 'public/images/users'
+    dest: 'public/images/cars'
 });
 
 module.exports = upload;

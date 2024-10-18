@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
 const driverController = require("../controller/driverController");
 
 router.post("/", driverController.createDriver);

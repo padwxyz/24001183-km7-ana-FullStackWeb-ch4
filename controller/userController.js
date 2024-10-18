@@ -1,7 +1,6 @@
 const { User } = require("../models");
 const imagekit = require("../lib/imagekit")
 
-// Function for get all user data
 async function getAllUser(req, res) {
     try {
         const users = await User.findAll();
@@ -22,7 +21,6 @@ async function getAllUser(req, res) {
     }
 }
 
-// Function for get user data by id
 async function getUserById(req, res) {
     const id = req.params.id;
     try {
@@ -52,7 +50,6 @@ async function getUserById(req, res) {
     }
 }
 
-// Function for delete user by id
 async function deleteUserById(req, res) {
     const id = req.params.id;
     try {
@@ -85,7 +82,6 @@ async function deleteUserById(req, res) {
     }
 }
 
-// Function for update user by id
 async function UpdateUserById(req, res) {
     const { firstName, lastName, age, phoneNumber } = req.body;
     const id = req.params.id;

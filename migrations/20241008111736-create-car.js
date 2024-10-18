@@ -18,8 +18,8 @@ module.exports = {
             type: {
                 type: Sequelize.STRING,
             },
-            image: {
-                type: Sequelize.TEXT,
+            images: {
+                type: Sequelize.ARRAY(Sequelize.TEXT),
             },
             year: {
                 type: Sequelize.INTEGER,

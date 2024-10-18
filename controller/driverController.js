@@ -46,6 +46,7 @@ async function getDriverById(req, res) {
     });
   }
 }
+
 async function deleteDriverById(req, res) {
   const id = req.params.id;
   try {
